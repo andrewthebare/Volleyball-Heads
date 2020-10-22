@@ -101,81 +101,16 @@ int main()
 
   while(true){
 
-	  //handle player movement
-	  //if (true) {	//keys
-		 // x.moveRight();
-		 // cout << "X: " << x.getRect().x;
-	  //}
-
-
-	  //SDL_Event game_event;
-	  //SDL_PollEvent(&game_event);
-
-	  //switch (game_event.key.keysym.sym) {
-	  //case SDLK_RIGHT:
-		 // x.moveRight();
-		 // break;
-	  //case SDLK_LEFT:
-		 // x.moveLeft();
-		 // break;
-	  //}
 
 	  GE.handleEvents();
-	  //do the move
-	  //cout << x.currentLateralVelocity << endl;
-	  //x.moveRect();
 
 	  GE.updateMechanics();
 
 	
 	  GE.render();
-	//  //move the car
-	//  moveRect(rect, -1, 0);
-	//  moveRect(wheelFront, -1, 0);
-	//  moveRect(wheelBack, -1, 0);
 
-	//  if (rect.x + rect.w < 0) {
-	//	  rect.x = 1500;
-	//	  wheelFront.x = 1550;
-	//	  wheelBack.x = 1760;
-	//  }
-
-
-	////SDL_RenderClear(my_renderer);
-	//SDL_SetRenderDrawColor(my_renderer, 255, 0, 190, 250);
-	//SDL_RenderClear(my_renderer);
-
-
-	//SDL_SetRenderDrawColor(my_renderer, 100, 250, 190, 250);
-	//SDL_RenderFillRect(my_renderer, &solidSquare);
-	//
-	//SDL_RenderCopy(my_renderer, carTexture, NULL, &rect);
-
-	////increase the angle
-	//wheelAngle--;
-	//if (wheelAngle <= 0) {
-	//	wheelAngle = 360;
-	//}
-	//SDL_RenderCopyEx(my_renderer, wheelTexture, NULL, &wheelFront, wheelAngle, NULL, SDL_FLIP_NONE);
-	//SDL_RenderCopyEx(my_renderer, wheelTexture, NULL, &wheelBack, wheelAngle, NULL, SDL_FLIP_NONE);
-
-	////test draw
-	//SDL_SetRenderDrawColor(my_renderer, 0, 0, 0, 250);
-	//SDL_RenderFillRect(my_renderer, &playerRect);
-	//x.render(my_renderer);
-
-
-	////SDL_RenderCopy(my_renderer, wheelTexture, NULL, &wheelFront);
-	////SDL_RenderCopy(my_renderer, wheelTexture, NULL, &wheelBack);
-	//SDL_RenderPresent(my_renderer);
 
   }
-
-  //SDL_DestroyRenderer(my_renderer);
-  //SDL_DestroyWindow(my_window);
-
-  //IMG_Quit();
-  //SDL_Quit();
 
   GE.quit();
   
