@@ -15,13 +15,17 @@ private:
 	//int positionY;
 
 	SDL_Rect rect;
+	SDL_Texture* texture;
 
 
 public:
-	enum moveState {left, right, up};
+	enum moveState {nothing, left, right, up} move=nothing;
 
 	double currentLateralVelocity;
-	Player(SDL_Rect r);
+	Player();
+
+	//Texture needs to be preloadded
+	Player(SDL_Rect r, SDL_Texture* tex);
 
 	void moveLeft();
 	void moveRight();
@@ -33,6 +37,6 @@ public:
 
 	double getLateralVelocity();
 
-	void render(SDL_Renderer* renderer, SDL_Texture* tex);
+	void render(SDL_Renderer* renderer);
 };
 
