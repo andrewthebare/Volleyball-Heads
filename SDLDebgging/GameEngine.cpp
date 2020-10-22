@@ -46,32 +46,32 @@ void GameEngine::registerPlayers(){
 void GameEngine::handleEvents() {
 	SDL_Event game_event;
 	SDL_PollEvent(&game_event);
+	SDL_PumpEvents();
+	const Uint8* keystate = SDL_GetKeyboardState(NULL);
 
-	//const Uint8* keystate = SDL_GetKeyboardState(NULL);
-
-	//if (keystate[SDLK_LEFT]) {
-	//	player1.move = player1.left;
-	//}
-	//else if (keystate[SDLK_RIGHT]) {
-	//	player1.move = player1.right;
-	//}
-	//else {
-	//	player1.move=player1.nothing;
-	//}
-
-
-	switch (game_event.key.keysym.sym) {	//each player will have a personal move state
-	case SDLK_RIGHT:
-		player1.move = player1.right;
-		break;
-	case SDLK_LEFT:
+	if (keystate[SDL_SCANCODE_LEFT]) {
 		player1.move = player1.left;
-		break;
-
-	default:
-		player1.move = player1.nothing;
-		break;
 	}
+	else if (keystate[SDL_SCANCODE_RIGHT]) {
+		player1.move = player1.right;
+	}
+	else {
+		player1.move=player1.nothing;
+	}
+
+
+	//switch (game_event.key.keysym.sym) {	//each player will have a personal move state
+	//case SDLK_RIGHT:
+	//	player1.move = player1.right;
+	//	break;
+	//case SDLK_LEFT:
+	//	player1.move = player1.left;
+	//	break;
+
+	//default:
+	//	player1.move = player1.nothing;
+	//	break;
+	//}
 
 }
 

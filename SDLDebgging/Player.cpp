@@ -32,6 +32,7 @@ double Player::getLateralVelocity() {
 /*Call once per frame, moves the rect according to the lateral velocity*/
 void Player::moveRect() {
 	rect.x += currentLateralVelocity;
+	
 }
 
 
