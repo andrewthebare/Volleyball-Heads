@@ -1,5 +1,6 @@
 #include "GameEngine.h"
 #include "Player.h"
+#include "GameObject.h"
 
 GameEngine::GameEngine() {
 	std::cout << "GameEngine Created";
@@ -33,7 +34,7 @@ void GameEngine::registerPlayers(){
 	
 	SDL_Rect playerRect;
 	playerRect.x = 30;
-	playerRect.y = 30;
+	playerRect.y = 400;
 	playerRect.w = 50;
 	playerRect.h = 50;
 	player1 = Player(playerRect, wheelTexture);
@@ -41,6 +42,23 @@ void GameEngine::registerPlayers(){
 	//player2 = p2;
 	//player3 = p3;
 	//player4 = p4;
+
+
+	//also GameObjects
+	SDL_Rect courtRect;
+	courtRect.x = 0;
+	courtRect.y = 420;
+	courtRect.w = SCREEN_WIDTH;
+	courtRect.h = 60;
+
+	SDL_Texture* courtTexture = NULL;
+	SDL_Surface* court = IMG_Load("./car.png");
+
+	courtTexture = SDL_CreateTextureFromSurface(my_renderer, court);
+	SDL_FreeSurface(court);
+
+	GameObject temp = GameObject(courtRect, courtTexture);
+	addObject(temp);
 }
 
 void GameEngine::handleEvents() {
@@ -60,18 +78,11 @@ void GameEngine::handleEvents() {
 	}
 
 
-	//switch (game_event.key.keysym.sym) {	//each player will have a personal move state
-	//case SDLK_RIGHT:
-	//	player1.move = player1.right;
-	//	break;
-	//case SDLK_LEFT:
-	//	player1.move = player1.left;
-	//	break;
-
-	//default:
-	//	player1.move = player1.nothing;
-	//	break;
-	//}
+	switch (game_event.key.keysym.sym) {	//one time hits
+	case SDLK_UP:
+		player1.jump = true;
+		break;
+	}
 
 }
 
@@ -99,6 +110,7 @@ void GameEngine::updateMechanics() {
 		break;
 	}
 
+
 	player1.moveRect();
 }
 
@@ -106,6 +118,13 @@ void GameEngine::render() {
 
 	//maybe store all players in array and loop through
 	//need a copy of the environment as well
+
+	//all environment variables
+	SDL_RenderClear(my_renderer);
+
+	for (int i = 0; i < objectIndex; i++) {
+		objects[i].render(my_renderer);
+	}
 
 	SDL_SetRenderDrawColor(my_renderer, 255, 0, 190, 250);
 	SDL_RenderClear(my_renderer);

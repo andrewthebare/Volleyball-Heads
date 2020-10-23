@@ -13,6 +13,7 @@ class Player
 private:
 	//int positionX;
 	//int positionY;
+	int FLOOR = 400;
 
 	SDL_Rect rect;
 	SDL_Texture* texture;
@@ -20,8 +21,10 @@ private:
 
 public:
 	enum moveState {nothing, left, right, up} move=nothing;
+	bool jump = false;
 
 	double currentLateralVelocity;
+	double currentVerticalVelocity = 0;
 	Player();
 
 	//Texture needs to be preloadded

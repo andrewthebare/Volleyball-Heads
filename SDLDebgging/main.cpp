@@ -92,7 +92,7 @@ int main()
   //Stuff
   SDL_Rect playerRect;
   playerRect.x = 30;
-  playerRect.y = 30;
+  playerRect.y = 400;
   playerRect.w = 50;
   playerRect.h = 50;
   Player x = Player(playerRect, wheelTexture);
@@ -106,9 +106,12 @@ int main()
 
 	  GE.updateMechanics();
 
-	
-	  GE.render();
+		  SDL_RenderClear(GE.my_renderer);
+	  SDL_SetRenderDrawColor(GE.my_renderer, 0, 0, 190, 250);
+	  SDL_RenderFillRect(GE.my_renderer, &solidSquare);
 
+	  GE.render();
+	  
 
   }
 

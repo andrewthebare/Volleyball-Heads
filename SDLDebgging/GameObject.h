@@ -10,9 +10,12 @@ class GameObject
 private:
 	SDL_Rect body;
 	SDL_Texture* texture;
+	
 
 public:
-	GameObject(SDL_Rect rect, SDL_Texture* tex);
+	int check = 0;
+	GameObject();
+	GameObject(SDL_Rect &rect, SDL_Texture* tex);
 
 	void update();
 

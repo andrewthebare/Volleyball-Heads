@@ -6,6 +6,7 @@
 #include <SDL_timer.h>
 
 #include "Player.h"
+#include "GameObject.h"
 
 
 class GameEngine
@@ -13,12 +14,19 @@ class GameEngine
 private:
 	const int SCREEN_WIDTH = 1500;
 	const int SCREEN_HEIGHT = 480;
+	const int FLOOR = 400;
 
 	Player player1 = Player();
 	Player player2 = Player();
 	Player player3 = Player();
 	Player player4 = Player();
 
+	GameObject objects[10];
+	int objectIndex = 0;
+	void addObject(GameObject obj) {
+		objects[objectIndex] = obj;
+		objectIndex++;
+	}
 
 public:
 	SDL_Window* my_window = NULL;

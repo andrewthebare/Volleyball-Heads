@@ -46,6 +46,21 @@ void Player::moveRect() {
 	rect.x += currentLateralVelocity;
 	std::cout<<"V: " << currentLateralVelocity;
 
+	if (jump) {
+		currentVerticalVelocity = -4;
+		jump = false;
+	}
+
+	rect.y += currentVerticalVelocity;
+
+	if (rect.y < FLOOR) {
+		currentVerticalVelocity += 1;
+	}
+	else {
+		currentVerticalVelocity = 0;
+	}
+
+
 }
 
 
