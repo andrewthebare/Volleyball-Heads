@@ -13,7 +13,7 @@ class Player
 private:
 	//int positionX;
 	//int positionY;
-	int FLOOR = 400;
+	
 
 	SDL_Rect rect;
 	SDL_Texture* texture;

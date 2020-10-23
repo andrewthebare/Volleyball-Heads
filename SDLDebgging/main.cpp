@@ -69,24 +69,6 @@ int main()
   rect.w = 370;
   rect.h = 120;
 
-  SDL_Rect solidSquare;
-  solidSquare.x = 0;
-  solidSquare.y = 420;
-  solidSquare.w = SCREEN_WIDTH;
-  solidSquare.h = 60;
-
-  SDL_Rect wheelFront;
-  wheelFront.x = 1550;
-  wheelFront.y = 340;
-  wheelFront.w = 60;
-  wheelFront.h = 60;
-
-  SDL_Rect wheelBack;
-  wheelBack.x = 1760;
-  wheelBack.y = 340;
-  wheelBack.w = 60;
-  wheelBack.h = 60;
-
   int wheelAngle = 359;
 
   //Stuff
@@ -99,16 +81,14 @@ int main()
 
   GE.registerPlayers();
 
+
+
   while(true){
 
 
 	  GE.handleEvents();
 
 	  GE.updateMechanics();
-
-		  SDL_RenderClear(GE.my_renderer);
-	  SDL_SetRenderDrawColor(GE.my_renderer, 0, 0, 190, 250);
-	  SDL_RenderFillRect(GE.my_renderer, &solidSquare);
 
 	  GE.render();
 	  

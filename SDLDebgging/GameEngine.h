@@ -14,7 +14,6 @@ class GameEngine
 private:
 	const int SCREEN_WIDTH = 1500;
 	const int SCREEN_HEIGHT = 480;
-	const int FLOOR = 400;
 
 	Player player1 = Player();
 	Player player2 = Player();
@@ -28,7 +27,12 @@ private:
 		objectIndex++;
 	}
 
+	GameObject ground;
+	GameObject net;
+
 public:
+	static const int FLOOR = 380;
+
 	SDL_Window* my_window = NULL;
 	SDL_Renderer* my_renderer = NULL;
 	//SDL_Event input;

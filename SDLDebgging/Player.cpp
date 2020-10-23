@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "GameEngine.h"
 
 
 /*Constructor*/
@@ -47,17 +48,18 @@ void Player::moveRect() {
 	std::cout<<"V: " << currentLateralVelocity;
 
 	if (jump) {
-		currentVerticalVelocity = -4;
+		currentVerticalVelocity = -15;
 		jump = false;
 	}
 
 	rect.y += currentVerticalVelocity;
 
-	if (rect.y < FLOOR) {
+	if (rect.y < GameEngine::FLOOR) {
 		currentVerticalVelocity += 1;
 	}
 	else {
 		currentVerticalVelocity = 0;
+		rect.y = GameEngine::FLOOR;
 	}
 
 

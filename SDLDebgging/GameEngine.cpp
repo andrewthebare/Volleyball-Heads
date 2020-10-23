@@ -4,7 +4,6 @@
 
 GameEngine::GameEngine() {
 	std::cout << "GameEngine Created";
-	//where our global variables go
 }
 
 void GameEngine::init() {
@@ -34,7 +33,7 @@ void GameEngine::registerPlayers(){
 	
 	SDL_Rect playerRect;
 	playerRect.x = 30;
-	playerRect.y = 400;
+	playerRect.y = FLOOR;
 	playerRect.w = 50;
 	playerRect.h = 50;
 	player1 = Player(playerRect, wheelTexture);
@@ -47,18 +46,30 @@ void GameEngine::registerPlayers(){
 	//also GameObjects
 	SDL_Rect courtRect;
 	courtRect.x = 0;
-	courtRect.y = 420;
+	courtRect.y = SCREEN_HEIGHT-60;
 	courtRect.w = SCREEN_WIDTH;
 	courtRect.h = 60;
 
 	SDL_Texture* courtTexture = NULL;
-	SDL_Surface* court = IMG_Load("./car.png");
+	SDL_Surface* court = IMG_Load("./Court.png");
 
 	courtTexture = SDL_CreateTextureFromSurface(my_renderer, court);
 	SDL_FreeSurface(court);
 
-	GameObject temp = GameObject(courtRect, courtTexture);
-	addObject(temp);
+	ground = GameObject(courtRect, courtTexture);
+	
+	SDL_Rect netRec;
+	netRec.x = SCREEN_WIDTH/2-10;
+	netRec.y = SCREEN_HEIGHT -200;
+	netRec.w = 20;
+	netRec.h = SCREEN_HEIGHT;
+
+	net = GameObject(netRec, nullptr);
+
+
+
+	//GameObject temp = GameObject(courtRect, courtTexture);
+	//addObject(temp);
 }
 
 void GameEngine::handleEvents() {
@@ -123,12 +134,17 @@ void GameEngine::render() {
 	SDL_RenderClear(my_renderer);
 
 	for (int i = 0; i < objectIndex; i++) {
-		objects[i].render(my_renderer);
+		objects[i].renderSolidRect(my_renderer, 0, 0, 0, 250);
+		std::cout << "Check: " << i << " | " << objects[i].check << endl;
+		std::cout << "Body: " << "y: " << objects[i].getRect().y;
 	}
+
+
 
 	SDL_SetRenderDrawColor(my_renderer, 255, 0, 190, 250);
 	SDL_RenderClear(my_renderer);
-
+	ground.renderSolidRect(my_renderer, 0, 0, 0, 250);
+	net.renderSolidRect(my_renderer, 0, 0, 0, 250);
 	player1.render(my_renderer);
 
 	//SDL_RenderCopy(my_renderer, wheelTexture, NULL, &wheelFront);

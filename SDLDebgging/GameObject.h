@@ -15,13 +15,14 @@ private:
 public:
 	int check = 0;
 	GameObject();
-	GameObject(SDL_Rect &rect, SDL_Texture* tex);
+	GameObject(SDL_Rect rect, SDL_Texture* tex);
 
 	void update();
 
 	void render(SDL_Renderer* renderer);
-
+	void renderSolidRect(SDL_Renderer* ren, int r, int g, int b, int a);
 	void quit();
 
+	SDL_Rect getRect();
 };
 
