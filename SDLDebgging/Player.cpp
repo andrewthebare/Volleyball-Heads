@@ -14,16 +14,28 @@ Player::Player(SDL_Rect r, SDL_Texture* tex) {
 }
 
 void Player::moveLeft() {
-	if (currentLateralVelocity > -1)
-		currentLateralVelocity += -.01;
-
-	moveRect();
+	if (currentLateralVelocity > -5)
+		currentLateralVelocity -= 1;
 }
 void Player::moveRight() {
-	if(currentLateralVelocity<1)
-		currentLateralVelocity += .01;
+	if(currentLateralVelocity<5)
+		currentLateralVelocity += 1;
 
-	moveRect();
+}
+void Player::slowDown() {
+	if (currentLateralVelocity > 0) {
+		currentLateralVelocity -= 1;
+
+		if (currentLateralVelocity < 0)
+			currentLateralVelocity = 0;
+	}
+	else if (currentLateralVelocity < 0) {
+		currentLateralVelocity += 1;
+
+		if (currentLateralVelocity > 0)
+			currentLateralVelocity = 0;
+
+	}
 }
 double Player::getLateralVelocity() {
 	return currentLateralVelocity;
@@ -32,7 +44,8 @@ double Player::getLateralVelocity() {
 /*Call once per frame, moves the rect according to the lateral velocity*/
 void Player::moveRect() {
 	rect.x += currentLateralVelocity;
-	
+	std::cout<<"V: " << currentLateralVelocity;
+
 }
 
 

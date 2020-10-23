@@ -78,18 +78,28 @@ void GameEngine::handleEvents() {
 void GameEngine::updateMechanics() {
 	//switch statement based on which moving enum is active
 	//player
-	std::cout << "Move Value: " << player1.move << endl;
 	switch (player1.move)
 	{
 		case 0:{
-			//std::cout << "I DO NOTHING";
+			std::cout << "-- --- --" << endl;
+			player1.slowDown();
+			break;
 		}
 		case 1: {
+			std::cout << "GO LEFT" << endl;
 			player1.moveLeft();
+			break;
+		}
+		case 2: {
+			player1.moveRight();
+			break;
 		}
 	default:
+
 		break;
 	}
+
+	player1.moveRect();
 }
 
 void GameEngine::render() {
@@ -97,7 +107,6 @@ void GameEngine::render() {
 	//maybe store all players in array and loop through
 	//need a copy of the environment as well
 
-		//SDL_RenderClear(my_renderer);
 	SDL_SetRenderDrawColor(my_renderer, 255, 0, 190, 250);
 	SDL_RenderClear(my_renderer);
 

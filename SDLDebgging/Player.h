@@ -29,6 +29,7 @@ public:
 
 	void moveLeft();
 	void moveRight();
+	void slowDown();
 
 	void moveRect();
 
