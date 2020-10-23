@@ -18,6 +18,8 @@ private:
 	SDL_Rect rect;
 	SDL_Texture* texture;
 
+	int currentAngle = 359;
+	int gravityTimer = 0;
 
 public:
 	enum moveState {nothing, left, right, up} move=nothing;

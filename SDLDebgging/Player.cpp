@@ -15,12 +15,20 @@ Player::Player(SDL_Rect r, SDL_Texture* tex) {
 }
 
 void Player::moveLeft() {
-	if (currentLateralVelocity > -5)
+	if (currentLateralVelocity > -2)
 		currentLateralVelocity -= 1;
+
+	currentAngle--;
+	if (currentAngle < 0)
+		currentAngle = 359;
 }
 void Player::moveRight() {
-	if(currentLateralVelocity<5)
+	if(currentLateralVelocity<2)
 		currentLateralVelocity += 1;
+
+	currentAngle++;
+	if (currentAngle > 359)
+		currentAngle = 0;
 
 }
 void Player::slowDown() {
@@ -48,14 +56,20 @@ void Player::moveRect() {
 	std::cout<<"V: " << currentLateralVelocity;
 
 	if (jump) {
-		currentVerticalVelocity = -15;
+		currentVerticalVelocity = -10;
 		jump = false;
 	}
 
 	rect.y += currentVerticalVelocity;
 
 	if (rect.y < GameEngine::FLOOR) {
-		currentVerticalVelocity += 1;
+		gravityTimer++;
+
+		if (gravityTimer > 3 && currentVerticalVelocity < 4) {
+			currentVerticalVelocity += 1;
+			gravityTimer = 0;
+		}
+
 	}
 	else {
 		currentVerticalVelocity = 0;
@@ -71,5 +85,5 @@ SDL_Rect Player::getRect() {
 }
 
 void Player::render(SDL_Renderer* renderer) {
-	SDL_RenderCopy(renderer, texture, NULL, &rect);
+	SDL_RenderCopyEx(renderer, texture, NULL, &rect, currentAngle, NULL, SDL_FLIP_NONE);
 }
