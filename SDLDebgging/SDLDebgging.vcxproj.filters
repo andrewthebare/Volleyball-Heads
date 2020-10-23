@@ -38,7 +38,7 @@
     <Image Include="carwheel.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="..\..\..\..\Pictures\Court.png">
+    <Image Include="beachBG.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

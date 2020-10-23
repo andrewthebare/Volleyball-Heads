@@ -13,7 +13,7 @@ class GameEngine
 {
 private:
 	static const int SCREEN_WIDTH = 1500;
-	static const int SCREEN_HEIGHT = 480;
+	static const int SCREEN_HEIGHT = 600;
 
 	Player player1 = Player();
 	Player player2 = Player();
@@ -27,6 +27,7 @@ private:
 		objectIndex++;
 	}
 
+	GameObject background;
 	GameObject ground;
 	GameObject net;
 

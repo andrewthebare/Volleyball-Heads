@@ -20,6 +20,7 @@ private:
 
 	int currentAngle = 359;
 	int gravityTimer = 0;
+	int veloTimer = 0;
 
 public:
 	enum moveState {nothing, left, right, up} move=nothing;

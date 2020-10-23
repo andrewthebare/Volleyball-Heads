@@ -148,7 +148,7 @@
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Pictures\Court.png" />
+    <Image Include="beachBG.jpg" />
     <Image Include="car.png" />
     <Image Include="carwheel.png" />
     <Image Include="PHath.jpg" />
