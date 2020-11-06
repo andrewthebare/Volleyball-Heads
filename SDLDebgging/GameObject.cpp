@@ -16,7 +16,6 @@ void GameObject::update() {
 
 void GameObject::render(SDL_Renderer* renderer) {
 	SDL_RenderCopy(renderer, texture, NULL, &body);
-	std::cout <<"Check: " << check;
 }
 void GameObject::renderSolidRect(SDL_Renderer* ren, int r,int g,int b,int a) {
 	SDL_SetRenderDrawColor(ren, r, g, b, a);

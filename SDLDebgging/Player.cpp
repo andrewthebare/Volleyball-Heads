@@ -66,7 +66,7 @@ double Player::getLateralVelocity() {
 /*Call once per frame, moves the rect according to the lateral velocity*/
 void Player::moveRect() {
 	rect.x += currentLateralVelocity;
-	std::cout<<"V: " << currentLateralVelocity;
+	//std::cout<<"V: " << currentLateralVelocity;
 
 	if (jump && rect.y == GameEngine::FLOOR) {
 		currentVerticalVelocity = -13;

@@ -1,12 +1,15 @@
 #include "GameEngine.h"
 #include "Player.h"
 #include "GameObject.h"
+#include "CollisionDetector.h"
 
 GameEngine::GameEngine() {
 	std::cout << "GameEngine Created";
 }
 
 void GameEngine::init() {
+	col = CollisionDetector();
+
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		std::cout << "Error initializing SDL: " << SDL_GetError() << std::endl;
 	}
@@ -118,12 +121,10 @@ void GameEngine::updateMechanics() {
 	switch (player1.move)
 	{
 		case 0:{
-			std::cout << "-- --- --" << endl;
 			player1.slowDown();
 			break;
 		}
 		case 1: {
-			std::cout << "GO LEFT" << endl;
 			player1.moveLeft();
 			break;
 		}
@@ -132,10 +133,12 @@ void GameEngine::updateMechanics() {
 			break;
 		}
 	default:
-
+		//check for collisison between player and net
 		break;
 	}
-
+	bool b = col.RectangleCollision(player1.getRect(), net.getRect());
+	if (b)
+		//COLLIDE
 
 	player1.moveRect();
 }
@@ -174,3 +177,4 @@ void GameEngine::quit() {
 	SDL_Quit();
 
 }
+
