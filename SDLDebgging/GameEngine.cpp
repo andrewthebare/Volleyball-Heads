@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "GameObject.h"
 #include "CollisionDetector.h"
+#include"ParticleEffect.h"
 
 GameEngine::GameEngine() {
 	std::cout << "GameEngine Created";
@@ -88,6 +89,8 @@ void GameEngine::registerPlayers(){
 
 	net = GameObject(netRec, courtTexture);
 
+	grass = ParticleEffect(5, 0, 250, 0, 250);
+
 }
 
 void GameEngine::handleEvents() {
@@ -138,9 +141,11 @@ void GameEngine::updateMechanics() {
 	}
 	bool b = col.RectangleCollision(player1.getRect(), net.getRect());
 	if (b)
+		grass.trigger(50, 50);
 		//COLLIDE
 
 	player1.moveRect();
+	grass.update();
 }
 
 void GameEngine::render() {
@@ -161,6 +166,7 @@ void GameEngine::render() {
 	
 	
 	player1.render(my_renderer);
+	grass.render(my_renderer);
 
 	//SDL_RenderCopy(my_renderer, wheelTexture, NULL, &wheelFront);
 	//SDL_RenderCopy(my_renderer, wheelTexture, NULL, &wheelBack);

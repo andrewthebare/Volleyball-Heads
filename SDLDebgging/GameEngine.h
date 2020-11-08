@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "GameObject.h"
 #include"CollisionDetector.h"
+#include "ParticleEffect.h"
 
 
 class GameEngine
@@ -33,6 +34,8 @@ private:
 	GameObject background;
 	GameObject ground;
 	GameObject net;
+
+	ParticleEffect grass;
 
 public:
 	static const int FLOOR = SCREEN_HEIGHT-60-40;
