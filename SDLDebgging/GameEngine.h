@@ -17,6 +17,7 @@ private:
 	static const int SCREEN_WIDTH = 1500;
 	static const int SCREEN_HEIGHT = 600;
 
+
 	CollisionDetector col;
 
 	Player player1 = Player();
@@ -39,6 +40,8 @@ private:
 
 public:
 	static const int FLOOR = SCREEN_HEIGHT-60-40;
+	static const int FRAMEDURATION = 1000 / 30;	//fps
+	int fpsCounter = 0;
 
 	SDL_Window* my_window = NULL;
 	SDL_Renderer* my_renderer = NULL;
