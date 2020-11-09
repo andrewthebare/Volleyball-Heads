@@ -22,6 +22,8 @@ private:
 	int gravityTimer = 0;
 	int veloTimer = 0;
 
+	int veloScale = 10;
+
 public:
 	enum moveState {nothing, left, right, up} move=nothing;
 	bool jump = false;

@@ -21,24 +21,24 @@ Player::Player(SDL_Rect r, SDL_Texture* tex) {
 	I'm experimenting with adding a timer function so that it takes a second or so to reach max speed
 */
 void Player::moveLeft() {
-	if (currentLateralVelocity > -2 && veloTimer > 30) {
+	if (currentLateralVelocity > -1 * veloScale) {
 		currentLateralVelocity -= 1;
 		veloTimer = 0;
 	}
 	veloTimer++;
 
-	currentAngle--;
+	currentAngle-=veloScale;
 	if (currentAngle < 0)
 		currentAngle = 359;
 }
 void Player::moveRight() {
-	if (currentLateralVelocity < 2 && veloTimer > 30) {
+	if (currentLateralVelocity < veloScale) {
 		currentLateralVelocity += 1;
 		veloTimer = 0;
 	}
 	veloTimer++;
 
-	currentAngle++;
+	currentAngle+=veloScale;
 	if (currentAngle > 359)
 		currentAngle = 0;
 
@@ -69,7 +69,7 @@ void Player::moveRect() {
 	//std::cout<<"V: " << currentLateralVelocity;
 
 	if (jump && rect.y == GameEngine::FLOOR) {
-		currentVerticalVelocity = -13;
+		currentVerticalVelocity = -75;
 	}
 	jump = false;
 
@@ -78,8 +78,8 @@ void Player::moveRect() {
 	if (rect.y < GameEngine::FLOOR) {
 		gravityTimer++;
 
-		if (gravityTimer > 3 && currentVerticalVelocity < 4) {
-			currentVerticalVelocity += 1;
+		if (currentVerticalVelocity < 20) {
+			currentVerticalVelocity += 9;
 			gravityTimer = 0;
 		}
 
