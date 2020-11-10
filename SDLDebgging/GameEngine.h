@@ -37,6 +37,7 @@ private:
 	GameObject net;
 
 	ParticleEffect grass;
+	ParticleEffect black;
 
 public:
 	static const int FLOOR = SCREEN_HEIGHT-60-40;

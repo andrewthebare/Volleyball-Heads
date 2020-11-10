@@ -6,6 +6,8 @@
 #include <SDL_image.h> 
 #include <SDL_timer.h>
 
+#include "ParticleEffect.h"
+
 using namespace std;
 
 class Player
@@ -23,6 +25,8 @@ private:
 	int veloTimer = 0;
 
 	int veloScale = 10;
+
+	ParticleEffect landing;
 
 public:
 	enum moveState {nothing, left, right, up} move=nothing;

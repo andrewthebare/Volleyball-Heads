@@ -12,6 +12,8 @@ Player::Player(SDL_Rect r, SDL_Texture* tex) {
 
 	texture = tex;
 	currentLateralVelocity = 0;
+
+	landing = ParticleEffect(10, 250, 240, 25, 250);
 }
 
 /*
@@ -85,6 +87,9 @@ void Player::moveRect() {
 
 	}
 	else {
+		//just landed
+		if(currentVerticalVelocity>0)
+			landing.trigger(rect.x + 20, rect.y + 33);
 		currentVerticalVelocity = 0;
 		rect.y = GameEngine::FLOOR;
 	}
@@ -99,4 +104,7 @@ SDL_Rect Player::getRect() {
 
 void Player::render(SDL_Renderer* renderer) {
 	SDL_RenderCopyEx(renderer, texture, NULL, &rect, currentAngle, NULL, SDL_FLIP_NONE);
+	
+	landing.update();
+	landing.render(renderer);
 }
