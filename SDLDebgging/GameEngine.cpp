@@ -140,8 +140,16 @@ void GameEngine::updateMechanics() {
 		//check for collisison between player and net
 		break;
 	}
+
+	//testing my collision system
 	bool b = col.RectangleCollision(player1.getRect(), net.getRect());
-	if (b) {
+	SDL_Rect q;
+	q.x = 0;
+	q.y = 0;
+	q.h = SCREEN_HEIGHT;
+	q.w = 1;
+	bool c = col.RectangleCollision(player1.getRect(), q);
+	if (b || c) {
 		player1.currentLateralVelocity = -1*player1.currentLateralVelocity;
 		black.trigger(player1.getRect().x+20, player1.getRect().y+32);
 		//COLLIDE

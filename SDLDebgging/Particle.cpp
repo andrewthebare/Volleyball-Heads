@@ -16,7 +16,7 @@ Particle::Particle(SDL_Rect rec, int r, int g, int b) {
 	blue = b;
 
 	alive = true;
-	lifeTime = 30;
+	lifeTime = 15;
 }
 
 

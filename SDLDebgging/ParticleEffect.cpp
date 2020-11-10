@@ -20,7 +20,7 @@ void ParticleEffect::trigger(int x, int y) {
 	//so we don't wreck our system, it can only be active one at a time
 	if (!alive) {
 		alive = true;
-		lifeTime = 30;
+		lifeTime = 15;
 
 		//fill the particle array
 		for (int i = 0; i < particleNumber; i++) {	//TODO Randomness
