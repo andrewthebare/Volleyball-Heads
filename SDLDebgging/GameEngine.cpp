@@ -89,7 +89,8 @@ void GameEngine::registerPlayers(){
 
 	net = GameObject(netRec, courtTexture);
 
-	grass = ParticleEffect(5, 0, 250, 0, 250);
+	grass = ParticleEffect(5, 250, 250, 20, 250);
+	black = ParticleEffect(15, 0, 0, 0, 250);
 
 }
 
@@ -139,13 +140,22 @@ void GameEngine::updateMechanics() {
 		//check for collisison between player and net
 		break;
 	}
-	bool b = col.RectangleCollision(player1.getRect(), net.getRect());
-	if (b)
-		grass.trigger(50, 50);
-		//COLLIDE
 
+	//testing my collision system
+	bool b = col.RectangleCollision(player1.getRect(), net.getRect());
+	SDL_Rect q;
+	q.x = 0;
+	q.y = 0;
+	q.h = SCREEN_HEIGHT;
+	q.w = 1;
+	bool c = col.RectangleCollision(player1.getRect(), q);
+	if (b || c) {
+		player1.currentLateralVelocity = -1*player1.currentLateralVelocity;
+		black.trigger(player1.getRect().x+20, player1.getRect().y+32);
+		//COLLIDE
+	}
 	player1.moveRect();
-	grass.update();
+	black.update();
 }
 
 void GameEngine::render() {
@@ -166,7 +176,7 @@ void GameEngine::render() {
 	
 	
 	player1.render(my_renderer);
-	grass.render(my_renderer);
+	black.render(my_renderer);
 
 	//SDL_RenderCopy(my_renderer, wheelTexture, NULL, &wheelFront);
 	//SDL_RenderCopy(my_renderer, wheelTexture, NULL, &wheelBack);

@@ -20,7 +20,8 @@ public:
 	void update();
 	void render(SDL_Renderer* r);
 
-private:	
+private:
+	int red, green, blue;
 	double lifeTime;
 	int particleNumber;
 	bool alive;

@@ -16,7 +16,7 @@ Particle::Particle(SDL_Rect rec, int r, int g, int b) {
 	blue = b;
 
 	alive = true;
-	lifeTime = 50000;
+	lifeTime = 15;
 }
 
 
@@ -27,18 +27,22 @@ void Particle::update() {
 		body.y += yVel;
 		angle += angleVel;
 
+		//gravity
+		if(yVel <2)
+			yVel += 1;
+
 
 		lifeTime--;
 		if (lifeTime < 0) {
 			alive = false;
 		}
 	}
-	std::cout << "Lifetime: " << lifeTime;
 }
 
 void Particle::render(SDL_Renderer *r) {
 	if (alive) {
-		SDL_RenderCopyEx(r, tex, NULL, &body, angle, NULL, SDL_FLIP_NONE);
-		std::cout << "DRAWING";
+		std::cout << "\nI wanna draw Particle!\n";
+		SDL_SetRenderDrawColor(r, red, green, blue, 255);
+		SDL_RenderFillRect(r, &body);
 	}
 }
