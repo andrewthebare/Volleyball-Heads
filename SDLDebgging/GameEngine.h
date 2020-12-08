@@ -9,6 +9,7 @@
 #include "GameObject.h"
 #include"CollisionDetector.h"
 #include "ParticleEffect.h"
+#include "Ball.h"
 
 
 class GameEngine
@@ -18,7 +19,7 @@ private:
 	static const int SCREEN_HEIGHT = 600;
 
 	//NEED A BALL
-
+	Ball ball;
 	CollisionDetector col;
 
 	Player player1 = Player();

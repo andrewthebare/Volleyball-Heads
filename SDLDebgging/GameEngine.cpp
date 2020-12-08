@@ -92,6 +92,14 @@ void GameEngine::registerPlayers(){
 	grass = ParticleEffect(5, 250, 250, 20, 250);
 	black = ParticleEffect(15, 0, 0, 0, 250);
 
+	SDL_Rect ballRec;
+	ballRec.x = SCREEN_WIDTH / 2 - 10;
+	ballRec.y = 100;
+	ballRec.w = 40;
+	ballRec.h = 40;
+
+	ball = Ball(ballRec, wheelTexture);
+
 }
 
 void GameEngine::handleEvents() {
@@ -141,6 +149,11 @@ void GameEngine::updateMechanics() {
 		break;
 	}
 
+	//check for colission with ball
+	if (col.RectangleCollision(player1.getRect(), ball.getRect())) {
+		//here we calcualte angle into an x and y and bounce accordingly
+	}
+
 	//testing my collision system
 	bool b = col.RectangleCollision(player1.getRect(), net.getRect());
 	SDL_Rect q;
@@ -155,6 +168,9 @@ void GameEngine::updateMechanics() {
 		//COLLIDE
 	}
 	player1.moveRect();
+	ball.Update();
+
+	//texture
 	black.update();
 }
 
@@ -176,6 +192,9 @@ void GameEngine::render() {
 	
 	
 	player1.render(my_renderer);
+	ball.render(my_renderer);
+
+
 	black.render(my_renderer);
 
 	//SDL_RenderCopy(my_renderer, wheelTexture, NULL, &wheelFront);
