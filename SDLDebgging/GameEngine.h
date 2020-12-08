@@ -17,6 +17,7 @@ private:
 	static const int SCREEN_WIDTH = 1500;
 	static const int SCREEN_HEIGHT = 600;
 
+	//NEED A BALL
 
 	CollisionDetector col;
 

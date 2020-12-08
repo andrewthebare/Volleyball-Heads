@@ -35,6 +35,7 @@ CollisionDetector::~CollisionDetector() {
 
 
 	 //get the angle away
+	 return false;
 
  }
 
