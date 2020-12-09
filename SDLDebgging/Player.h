@@ -27,7 +27,7 @@ private:
 
 public:
 	enum moveState {nothing, left, right, up} move=nothing;
-	bool jump = false;
+	bool jump, trampJump = false;
 
 	double currentLateralVelocity;
 	double currentVerticalVelocity = 0;

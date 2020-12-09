@@ -72,6 +72,11 @@ void Player::moveRect() {
 
 	if (jump && rect.y == GameEngine::FLOOR) {
 		currentVerticalVelocity = -20;
+
+		if (trampJump) {
+			currentVerticalVelocity = -30;
+			trampJump = false;
+		}
 	}
 	jump = false;
 

@@ -36,6 +36,9 @@ private:
 	GameObject ground;
 	GameObject net;
 
+	GameObject Trampoline;
+	GameObject TrampolineRight;
+
 	SDL_Rect leftBound;
 	SDL_Rect rightBound;
 	SDL_Rect top;

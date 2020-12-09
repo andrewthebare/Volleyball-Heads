@@ -89,6 +89,24 @@ void GameEngine::registerPlayers(){
 
 	net = GameObject(netRec, courtTexture);
 
+	SDL_Rect trampolineRect;
+	trampolineRect.x = SCREEN_WIDTH / 2 - 100;
+	trampolineRect.y = SCREEN_HEIGHT - 60;
+	trampolineRect.w = 60;
+	trampolineRect.h = 20;
+
+	Trampoline = GameObject(trampolineRect, beachTex);
+
+	SDL_Rect trampolineRectR;
+	trampolineRectR.x = SCREEN_WIDTH / 2 +40;
+	trampolineRectR.y = SCREEN_HEIGHT - 60;
+	trampolineRectR.w = 60;
+	trampolineRectR.h = 20;
+
+	TrampolineRight = GameObject(trampolineRectR, beachTex);
+
+
+
 	grass = ParticleEffect(5, 250, 250, 20, 250);
 	black = ParticleEffect(15, 0, 0, 0, 250);
 
@@ -122,6 +140,10 @@ void GameEngine::handleEvents() {
 	switch (game_event.key.keysym.sym) {	//one time hits
 	case SDLK_UP:
 		player1.jump = true;
+
+		if (col.RectangleCollision(Trampoline.getRect(), player1.getRect())) {
+			player1.trampJump = true;
+		}
 		break;
 	}
 
@@ -156,8 +178,9 @@ void GameEngine::updateMechanics() {
 		ball.Bounce(anglePair.first, anglePair.second);
 	}
 
+	//ball to net
 	if (col.RectangleCollision(ball.getRect(), net.getRect())) {
-		if (ball.getRect().y + ball.getRect().h < net.getRect().y + 5) {
+		if (ball.getRect().y + ball.getRect().h < net.getRect().y + 40) {
 			ball.currentVerticalVelocity *= -.7;
 		}
 		else {
@@ -203,8 +226,11 @@ void GameEngine::render() {
 
 	//SDL_SetRenderDrawColor(my_renderer, 255, 0, 190, 250);
 	//SDL_RenderClear(my_renderer);
-	ground.renderSolidRect(my_renderer, 0, 0, 0, 250);
+	ground.renderSolidRect(my_renderer, 250, 230, 0, 250);
 	net.renderSolidRect(my_renderer, 0, 0, 0, 250);
+	Trampoline.renderSolidRect(my_renderer, 250, 40, 40, 250);
+	TrampolineRight.renderSolidRect(my_renderer, 250, 40, 40, 250);
+
 	
 	
 	player1.render(my_renderer);
