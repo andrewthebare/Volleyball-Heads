@@ -17,7 +17,6 @@ CollisionDetector::~CollisionDetector() {
 		 return false;
 	 }
 	 else {
-		 std::cout << "Collission" << endl;
 		 return true;
 	 }
 }
@@ -31,8 +30,9 @@ CollisionDetector::~CollisionDetector() {
 	 centerB.first = (rectB.x + rectB.w) / 2;
 	 centerB.second = (rectB.y + rectB.h) / 2;
 
-	 int radiusA = rectA.w / 2;
 
+	 int x = (centerA.first - centerB.first)/2;
+	 int y = (centerA.second - centerB.second)/2;
 
 	 //get the angle away
 	 return false;
@@ -46,4 +46,20 @@ CollisionDetector::~CollisionDetector() {
 	 y = centerA.second - centerB.second;
 
 	 return tan(x / y);
+ }
+
+ pair<int, int> CollisionDetector::CalculateAngle(SDL_Rect rectA, SDL_Rect rectB, int xVelA, int yVelA, int xVelB, int yVelB){
+	 pair<int, int> centerA;
+	 centerA.first = (rectA.x + rectA.w) / 2;
+	 centerA.second = (rectA.y + rectA.h) / 2;
+
+	 pair<int, int> centerB;
+	 centerB.first = (rectB.x + rectB.w) / 2;
+	 centerB.second = (rectB.y + rectB.h) / 2;
+
+
+	 int x = (centerA.first - centerB.first) + xVelB + (xVelA*-1/2);
+	 int y = (centerA.second - centerB.second)+yVelB+ (yVelA * -1/2);
+
+	 return  pair<int, int>(x, y);
  }

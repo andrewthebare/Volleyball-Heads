@@ -15,8 +15,6 @@
 class GameEngine
 {
 private:
-	static const int SCREEN_WIDTH = 1500;
-	static const int SCREEN_HEIGHT = 600;
 
 	//NEED A BALL
 	Ball ball;
@@ -38,10 +36,17 @@ private:
 	GameObject ground;
 	GameObject net;
 
+	SDL_Rect leftBound;
+	SDL_Rect rightBound;
+	SDL_Rect top;
+
 	ParticleEffect grass;
 	ParticleEffect black;
 
 public:
+	static const int SCREEN_WIDTH = 1500;
+	static const int SCREEN_HEIGHT = 600;
+
 	static const int FLOOR = SCREEN_HEIGHT-60-40;
 	static const int FRAMEDURATION = 1000 / 30;	//fps
 	int fpsCounter = 0;
