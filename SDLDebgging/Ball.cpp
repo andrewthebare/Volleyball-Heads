@@ -32,7 +32,7 @@ void Ball::Update() {
 
 	//if we hit the end
 	if (rect.x<0 || rect.x + rect.w>GameEngine::SCREEN_WIDTH) {
-		currentLateralVelocity *= -.7;
+		currentLateralVelocity *= -1;
 	}
 
 	rect.y += currentVerticalVelocity;
@@ -49,5 +49,6 @@ void Ball::Update() {
 
 
 void Ball::render(SDL_Renderer* renderer) {
+	//could add a rotation that switches based on the direction the ball hits
 	SDL_RenderCopy(renderer, texture, NULL, &rect);
 }

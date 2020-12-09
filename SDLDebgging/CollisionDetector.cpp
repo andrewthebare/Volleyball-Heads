@@ -58,8 +58,8 @@ CollisionDetector::~CollisionDetector() {
 	 centerB.second = (rectB.y + rectB.h) / 2;
 
 
-	 int x = (centerA.first - centerB.first) + xVelB + (xVelA*-1);
-	 int y = (centerA.second - centerB.second)+yVelB+ (yVelA * -1);
+	 int x = (centerA.first - centerB.first) + xVelB + (xVelA*-1/2);
+	 int y = (centerA.second - centerB.second)+yVelB+ (yVelA * -1/2);
 
 	 return  pair<int, int>(x, y);
  }

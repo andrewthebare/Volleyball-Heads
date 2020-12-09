@@ -1,4 +1,3 @@
-// CS 4160 - starter code written by Victor Zordan
 
 #include <iostream>
 #include <string>
