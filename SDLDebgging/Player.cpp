@@ -71,7 +71,7 @@ void Player::moveRect() {
 	//std::cout<<"V: " << currentLateralVelocity;
 
 	if (jump && rect.y == GameEngine::FLOOR) {
-		currentVerticalVelocity = -75;
+		currentVerticalVelocity = -20;
 	}
 	jump = false;
 
@@ -81,7 +81,7 @@ void Player::moveRect() {
 		gravityTimer++;
 
 		if (currentVerticalVelocity < 20) {
-			currentVerticalVelocity += 9;
+			currentVerticalVelocity += 2;
 			gravityTimer = 0;
 		}
 

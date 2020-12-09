@@ -1,4 +1,5 @@
 #include "Ball.h"
+#include "GameEngine.h"
 
 Ball::Ball() {
 
@@ -16,17 +17,28 @@ SDL_Rect Ball::getRect() {
 }
 
 void Ball::Bounce(int x, int y) {
+	std::cout << "Bounce vals\n"<< x<<"|" << y<<std::endl;
+	std::cout << "\nCurrentX|Y\n" << currentLateralVelocity << "|" << currentVerticalVelocity << std::endl;
 
+	currentLateralVelocity += x;
+	currentVerticalVelocity += y;
+
+	
 }
 
 void Ball::Update() {
 	//move laterally
 	rect.x += currentLateralVelocity;
 
+	//if we hit the end
+	if (rect.x<0 || rect.x + rect.w>GameEngine::SCREEN_WIDTH) {
+		currentLateralVelocity *= -.7;
+	}
+
 	rect.y += currentVerticalVelocity;
 
 	//gravity
-	if (currentVerticalVelocity < 10 && gravTimer>0) {
+	if (currentVerticalVelocity < 25 && gravTimer>0) {
 		currentVerticalVelocity += 1;
 		gravTimer = 0;
 	}

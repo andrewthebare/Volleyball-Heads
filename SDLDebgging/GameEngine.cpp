@@ -40,7 +40,7 @@ void GameEngine::registerPlayers(){
 
 	
 	SDL_Rect playerRect;
-	playerRect.x = 30;
+	playerRect.x = 60;
 	playerRect.y = FLOOR;
 	playerRect.w = 50;
 	playerRect.h = 50;
@@ -152,6 +152,22 @@ void GameEngine::updateMechanics() {
 	//check for colission with ball
 	if (col.RectangleCollision(player1.getRect(), ball.getRect())) {
 		//here we calcualte angle into an x and y and bounce accordingly
+		pair<int, int> anglePair = col.CalculateAngle(ball.getRect(), player1.getRect(),ball.currentLateralVelocity, ball.currentVerticalVelocity,player1.currentLateralVelocity,player1.currentVerticalVelocity);
+		ball.Bounce(anglePair.first, anglePair.second);
+	}
+
+	if (col.RectangleCollision(ball.getRect(), net.getRect())) {
+		if (ball.getRect().y + ball.getRect().h < net.getRect().y + 5) {
+			ball.currentVerticalVelocity *= -.7;
+		}
+		else {
+			ball.currentLateralVelocity *= -.7;
+		}
+	}
+
+	//testing purposes
+	if (col.RectangleCollision(ball.getRect(), ground.getRect())) {
+		ball.currentVerticalVelocity *= -1;
 	}
 
 	//testing my collision system
