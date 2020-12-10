@@ -12,8 +12,8 @@ using namespace std;
 
 class Player
 {
-private:
 
+protected: 
 	SDL_Rect rect;
 	SDL_Texture* texture;
 

@@ -10,6 +10,7 @@
 #include"CollisionDetector.h"
 #include "ParticleEffect.h"
 #include "Ball.h"
+#include "Bot.h"
 
 
 class GameEngine
@@ -21,9 +22,10 @@ private:
 	CollisionDetector col;
 
 	Player player1 = Player();
-	Player player2 = Player();
-	Player player3 = Player();
-	Player player4 = Player();
+	Bot player2 = Bot();
+
+	//Player player3 = Player();
+	//Player player4 = Player();
 
 	GameObject objects[10];
 	int objectIndex = 0;

@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <math.h>
 
 
 #include <SDL.h> 
@@ -14,7 +15,7 @@ private:
 	SDL_Rect rect;
 	SDL_Texture* texture;
 
-
+	int maxSpeed = 20;
 	int veloScale = 10;
 
 	int gravTimer = 0;
@@ -29,6 +30,7 @@ public:
 	SDL_Rect getRect();
 
 	void Bounce(int x, int y);
+	std::pair<int, int> getCenter();
 	void Update();
 
 	void render(SDL_Renderer* r);

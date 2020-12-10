@@ -50,16 +50,18 @@ CollisionDetector::~CollisionDetector() {
 
  pair<int, int> CollisionDetector::CalculateAngle(SDL_Rect rectA, SDL_Rect rectB, int xVelA, int yVelA, int xVelB, int yVelB){
 	 pair<int, int> centerA;
-	 centerA.first = (rectA.x + rectA.w) / 2;
-	 centerA.second = (rectA.y + rectA.h) / 2;
+	 centerA.first = (rectA.x + (rectA.w / 2));
+	 centerA.second = (rectA.y + (rectA.h / 2));
 
 	 pair<int, int> centerB;
-	 centerB.first = (rectB.x + rectB.w) / 2;
-	 centerB.second = (rectB.y + rectB.h) / 2;
+	 centerB.first = (rectB.x + (rectB.w / 2));
+	 centerB.second = (rectB.y + (rectB.h / 2));
 
+	 std::cout << "A: " << xVelA << " " << yVelA << endl << "B: " << xVelB << " " << yVelB << endl;
+	 cout << "X's: " << centerA.first - centerB.first << endl;
 
-	 int x = (centerA.first - centerB.first) + xVelB + (xVelA*-1/2);
-	 int y = (centerA.second - centerB.second)+yVelB+ (yVelA * -1/2);
+	 int x = (centerA.first - centerB.first) + xVelB*.5 + (xVelA*-.8);
+	 int y = (centerA.second - centerB.second)+yVelB * .5 + (yVelA*-.8);
 
 	 return  pair<int, int>(x, y);
  }

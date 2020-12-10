@@ -46,7 +46,7 @@ void ParticleEffect::update() {
 	if (alive) {
 		for (int i = 0; i < parts.size(); i++) {
 
-			std::cout << parts.at(i).lifeTime << "| ParticleLife\n";
+			//std::cout << parts.at(i).lifeTime << "| ParticleLife\n";
 
 			parts.at(i).update();
 		}
