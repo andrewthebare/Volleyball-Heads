@@ -4,6 +4,7 @@
 #include <SDL.h> 
 #include <SDL_image.h> 
 #include <SDL_timer.h>
+#include <SDL_ttf.h>
 
 #include "Player.h"
 #include "GameObject.h"
@@ -48,8 +49,17 @@ private:
 	ParticleEffect grass;
 	ParticleEffect black;
 
+	SDL_Rect leftSide, RightSide;
+
+	int score1, score2 = 0;
+
+	SDL_Surface* Score1;
+
 public:
-	static const int SCREEN_WIDTH = 1500;
+	bool pointScored = false;
+	int pointTimer = 0;
+
+	static const int SCREEN_WIDTH = 1100;
 	static const int SCREEN_HEIGHT = 600;
 
 	static const int FLOOR = SCREEN_HEIGHT-60-40;

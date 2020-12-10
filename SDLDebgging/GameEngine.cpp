@@ -32,8 +32,10 @@ void GameEngine::init() {
 * This function is where I register all the global parts of the game to GameEngine();
 */
 void GameEngine::registerPlayers(){
+	pointScored = false;
+
 	SDL_Texture* wheelTexture = NULL;
-	SDL_Surface* wheel = IMG_Load("./carwheel.png");
+	SDL_Surface* wheel = IMG_Load("./Happy_smiley_face.png");
 
 	wheelTexture = SDL_CreateTextureFromSurface(my_renderer, wheel);
 	SDL_FreeSurface(wheel);
@@ -74,6 +76,16 @@ void GameEngine::registerPlayers(){
 
 	background = GameObject(backgroundRec, beachTex);
 
+	leftSide.x = 0;
+	leftSide.y = SCREEN_HEIGHT - 60;
+	leftSide.w = SCREEN_WIDTH / 2 - 10;
+	leftSide.h = 60;
+
+	RightSide.x = SCREEN_WIDTH/2+10;
+	RightSide.y = SCREEN_HEIGHT - 60;
+	RightSide.w = SCREEN_WIDTH / 2 - 10;
+	RightSide.h = 60;
+
 
 	SDL_Rect courtRect;
 	courtRect.x = 0;
@@ -87,11 +99,18 @@ void GameEngine::registerPlayers(){
 	courtTexture = SDL_CreateTextureFromSurface(my_renderer, court);
 	SDL_FreeSurface(court);
 
+	SDL_Texture* ballTex = NULL;
+	SDL_Surface* ballSurf = IMG_Load("./volleyball.png");
+
+	ballTex = SDL_CreateTextureFromSurface(my_renderer, ballSurf);
+	SDL_FreeSurface(ballSurf);
+
+
 	ground = GameObject(courtRect, courtTexture);
 	
 	SDL_Rect netRec;
 	netRec.x = SCREEN_WIDTH/2-10;
-	netRec.y = SCREEN_HEIGHT -300;
+	netRec.y = SCREEN_HEIGHT -250;
 	netRec.w = 20;
 	netRec.h = SCREEN_HEIGHT;
 
@@ -124,7 +143,16 @@ void GameEngine::registerPlayers(){
 	ballRec.w = 40;
 	ballRec.h = 40;
 
-	ball = Ball(ballRec, wheelTexture);
+	ball = Ball(ballRec, ballTex);
+
+
+	//score
+	TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24); //this opens a font style and sets a size
+
+	SDL_Color White = { 255, 255, 255 };  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+
+	Score1 = TTF_RenderText_Solid(Sans, "put your text here", White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+
 
 }
 
@@ -183,55 +211,89 @@ void GameEngine::updateMechanics() {
 		break;
 	}
 
-	//check for colission with ball
-	if (col.RectangleCollision(player1.getRect(), ball.getRect())) {
-		//here we calcualte angle into an x and y and bounce accordingly
-		pair<int, int> anglePair = col.CalculateAngle(ball.getRect(), player1.getRect(),ball.currentLateralVelocity, ball.currentVerticalVelocity,player1.currentLateralVelocity,player1.currentVerticalVelocity);
-		ball.Bounce(anglePair.first, anglePair.second);
-	}
 
-	if (col.RectangleCollision(player2.getRect(), ball.getRect())) {
-		//here we calcualte angle into an x and y and bounce accordingly
-		pair<int, int> anglePair = col.CalculateAngle(ball.getRect(), player2.getRect(), ball.currentLateralVelocity, ball.currentVerticalVelocity, player2.currentLateralVelocity, player2.currentVerticalVelocity+5);
-		ball.Bounce(anglePair.first, anglePair.second);
-	}
+	if (!pointScored) {
+		//check for a win
+		if (col.RectangleCollision(ball.getRect(), leftSide)) {
+			score2++;
+			cout << "\n\t|SCORE|\n" << "\tLeft: " << score1 << " |\n" << "\tRight: " << score2 << endl;
 
-
-	//ball to net TODO
-	if (col.RectangleCollision(ball.getRect(), net.getRect())) {
-		if (ball.getRect().y + ball.getRect().h < net.getRect().y + 40) {
-			ball.currentVerticalVelocity *= -.7;
+			pointScored = true;
 		}
-		else {
-			ball.currentLateralVelocity *= -.7;
+		else if (col.RectangleCollision(ball.getRect(), RightSide)) {
+			score1++;
+			cout << "\n\t|SCORE|\n" << "\tLeft: " << score1 << " |\n" << "\tRight: " << score2 << endl;
+			player2.increaseDifficulty();
+
+			pointScored = true;
+
+		}
+
+		//check for colission with ball
+		if (col.RectangleCollision(player1.getRect(), ball.getRect())) {
+			//here we calcualte angle into an x and y and bounce accordingly
+			pair<int, int> anglePair = col.CalculateAngle(ball.getRect(), player1.getRect(), ball.currentLateralVelocity, ball.currentVerticalVelocity, player1.currentLateralVelocity, player1.currentVerticalVelocity);
+			ball.Bounce(anglePair.first, anglePair.second);
+		}
+
+		if (col.RectangleCollision(player2.getRect(), ball.getRect())) {
+			//here we calcualte angle into an x and y and bounce accordingly
+			pair<int, int> anglePair = col.CalculateAngle(ball.getRect(), player2.getRect(), ball.currentLateralVelocity, ball.currentVerticalVelocity, player2.currentLateralVelocity, player2.currentVerticalVelocity + 5);
+			ball.Bounce(anglePair.first, anglePair.second);
+		}
+
+		//ball to net TODO
+		if (col.RectangleCollision(ball.getRect(), net.getRect())) {
+			if (ball.getRect().y + ball.getRect().h < net.getRect().y) {
+				ball.currentVerticalVelocity *= -1;
+			}
+			else {
+				if (ball.getRect().x < SCREEN_WIDTH / 2 + 10 && ball.currentLateralVelocity < 0)
+					ball.setX(SCREEN_WIDTH / 2 + 10);
+				else if (ball.getRect().x > SCREEN_WIDTH / 2 - 10 && ball.currentLateralVelocity > 0)
+					ball.setX(SCREEN_WIDTH / 2 - 10);
+
+				ball.currentLateralVelocity *= -1;
+
+			}
+		}
+
+		//testing purposes
+		if (col.RectangleCollision(ball.getRect(), ground.getRect())) {
+			ball.currentVerticalVelocity *= -1;
+		}
+
+		//testing my collision system
+		bool b = col.RectangleCollision(player1.getRect(), net.getRect());
+		SDL_Rect q;
+		q.x = 0;
+		q.y = 0;
+		q.h = SCREEN_HEIGHT;
+		q.w = 1;
+		bool c = col.RectangleCollision(player1.getRect(), q);
+		if (b || c) {
+			player1.currentLateralVelocity = -1 * player1.currentLateralVelocity;
+			black.trigger(player1.getRect().x + 20, player1.getRect().y + 32);
+			//COLLIDE
+		}
+		player1.moveRect();
+		player2.moveRect();
+
+		ball.Update();
+
+		//texture
+		black.update();
+	}
+	else {
+		pointTimer++;
+
+		if (pointTimer > 120) {
+			pointTimer = 0;
+			pointScored = false;
+
+			registerPlayers();
 		}
 	}
-
-	//testing purposes
-	if (col.RectangleCollision(ball.getRect(), ground.getRect())) {
-		ball.currentVerticalVelocity *= -1;
-	}
-
-	//testing my collision system
-	bool b = col.RectangleCollision(player1.getRect(), net.getRect());
-	SDL_Rect q;
-	q.x = 0;
-	q.y = 0;
-	q.h = SCREEN_HEIGHT;
-	q.w = 1;
-	bool c = col.RectangleCollision(player1.getRect(), q);
-	if (b || c) {
-		player1.currentLateralVelocity = -1*player1.currentLateralVelocity;
-		black.trigger(player1.getRect().x+20, player1.getRect().y+32);
-		//COLLIDE
-	}
-	player1.moveRect();
-	player2.moveRect();
-
-	ball.Update();
-
-	//texture
-	black.update();
 }
 
 void GameEngine::render() {
@@ -261,7 +323,26 @@ void GameEngine::render() {
 
 	black.render(my_renderer);
 
-	//SDL_RenderCopy(my_renderer, wheelTexture, NULL, &wheelFront);
+	TTF_Font* Sans = TTF_OpenFont( "./OpenSans-Regular.ttf", 20);	
+
+	//if (!Sans)
+	//	std::cout << "\nFONT NO WORKO\n\n";
+
+	SDL_Color White = { 0, 0, 0 };  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "put your text here", White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+
+	SDL_Texture* Message = SDL_CreateTextureFromSurface(my_renderer, surfaceMessage); //now you can convert it into a texture
+
+	int w, h;
+	SDL_QueryTexture(Message, NULL, NULL, &w, &h);
+	//Mind you that (0,0) is on the top left of the window/screen, think a rect as the text's box, that way it would be very simple to understand
+
+	//Now since it's a texture, you have to put RenderCopy in your game loop area, the area where the whole code executes
+
+	//SDL_RenderCopy(my_renderer, Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
+
+															   //SDL_RenderCopy(my_renderer, wheelTexture, NULL, &wheelFront);
 	//SDL_RenderCopy(my_renderer, wheelTexture, NULL, &wheelBack);
 	SDL_RenderPresent(my_renderer);
 

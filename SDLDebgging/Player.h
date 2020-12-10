@@ -22,6 +22,7 @@ protected:
 	int veloTimer = 0;
 
 	int veloScale = 10;
+	int acceleration = 1;
 
 	ParticleEffect landing;
 

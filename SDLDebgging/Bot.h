@@ -8,7 +8,7 @@ class Bot :
 private:
     //SDL_Rect rect;
     //SDL_Texture* texture;
-
+    static int botDifficulty;
     int startX = 800;
 
     int halfway = 200;
@@ -22,6 +22,7 @@ public:
 
     void updateState(Ball b, int halfway);
     void updateBotMovement(Ball b);
+    void increaseDifficulty();
 
     void render(SDL_Renderer* renderer);
 

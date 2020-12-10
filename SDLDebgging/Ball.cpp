@@ -23,7 +23,7 @@ void Ball::Bounce(int x, int y) {
 	std::cout << "Vals:" << x << " | " << y<<endl;
 
 	currentLateralVelocity = x/1.25;
-	currentVerticalVelocity = y/3;
+	currentVerticalVelocity = y/2;
 
 	std::cout << "Velo:" << currentLateralVelocity << " | " << currentVerticalVelocity << endl;
 
@@ -39,6 +39,10 @@ void Ball::Bounce(int x, int y) {
 		else
 			currentVerticalVelocity = maxSpeed * -1;
 	}
+}
+
+void Ball::setX(int x) {
+	rect.x = x;
 }
 
 pair<int, int> Ball::getCenter() {

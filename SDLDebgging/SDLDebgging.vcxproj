@@ -72,8 +72,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\abare\source\repos\SDLDebgging\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\abare\source\repos\SDLDebgging\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\abare\source\repos\SDLDebgging\SDL2\include;C:\Users\abare\source\repos\SDLDebgging\SDL2\SDL2_ttf\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\abare\source\repos\SDLDebgging\SDL2\lib\x86;C:\Users\abare\source\repos\SDLDebgging\SDL2\SDL2_ttf\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -94,7 +94,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -156,7 +156,9 @@
     <Image Include="beachBG.jpg" />
     <Image Include="car.png" />
     <Image Include="carwheel.png" />
+    <Image Include="Happy_smiley_face.png" />
     <Image Include="PHath.jpg" />
+    <Image Include="volleyball.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
@@ -167,6 +169,10 @@
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleEffect.h" />
     <ClInclude Include="Player.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Aaargh.ttf" />
+    <Font Include="OpenSans-Regular.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
