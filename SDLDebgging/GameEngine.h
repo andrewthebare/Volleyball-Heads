@@ -12,6 +12,7 @@
 #include "ParticleEffect.h"
 #include "Ball.h"
 #include "Bot.h"
+#include "TextObject.h"
 
 
 class GameEngine
@@ -38,6 +39,8 @@ private:
 	GameObject background;
 	GameObject ground;
 	GameObject net;
+	GameObject pauseMenu;
+	int pauseTimer = 0;
 
 	GameObject Trampoline;
 	GameObject TrampolineRight;
@@ -52,10 +55,15 @@ private:
 	SDL_Rect leftSide, RightSide;
 
 	int score1, score2 = 0;
-
-	SDL_Surface* Score1;
+	int maxScore = 10;
+	TextObject leftText;
+	TextObject rightText;
 
 public:
+	bool gameGo = true;
+	int winnerFound = false;
+
+	bool startScreen, pause = false;
 	bool pointScored = false;
 	int pointTimer = 0;
 
@@ -84,5 +92,9 @@ public:
 	void render();
 
 	void quit();
+
+	//screens
+	void startScreenFunc();
+	void winnerScreen();
 };
 

@@ -42,6 +42,9 @@
     <ClCompile Include="Bot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="PHath.jpg">
@@ -86,6 +89,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Bot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

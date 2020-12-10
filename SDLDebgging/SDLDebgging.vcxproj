@@ -151,6 +151,7 @@
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleEffect.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="TextObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="beachBG.jpg" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleEffect.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="TextObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Aaargh.ttf" />

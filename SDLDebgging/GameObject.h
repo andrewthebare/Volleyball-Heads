@@ -7,7 +7,7 @@
 
 class GameObject
 {
-private:
+protected:
 	SDL_Rect body;
 	SDL_Texture* texture;
 	
