@@ -70,9 +70,12 @@ void Bot::updateBotMovement(Ball b) {
 			if(rect.y - 50 > b.getRect().y + b.getRect().h)
 				jump = true;
 		}
-		else if (b.getCenter().first + veloScale >= rect.x && b.getCenter().first - veloScale < rect.x) {
+		//else if (b.getCenter().first + veloScale >= rect.x && b.getCenter().first - veloScale < rect.x) {
+		//	if (currentLateralVelocity > b.currentLateralVelocity)
+		//		currentLateralVelocity = b.currentLateralVelocity*=.3;
+		//}
+		else if (currentLateralVelocity <0 && b.getRect().x>rect.x)
 			currentLateralVelocity = 0;
-		}
 
 
 

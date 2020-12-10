@@ -59,6 +59,10 @@ void Ball::Update() {
 	//if we hit the end
 	if (rect.x<0 || rect.x + rect.w>GameEngine::SCREEN_WIDTH) {
 		currentLateralVelocity *= -1;
+		if (rect.x > 10)
+			rect.x = GameEngine::SCREEN_WIDTH - rect.w;
+		else
+			rect.x = 0;
 	}
 
 	rect.y += currentVerticalVelocity;
