@@ -41,7 +41,6 @@ void Particle::update() {
 
 void Particle::render(SDL_Renderer *r) {
 	if (alive) {
-		std::cout << "\nI wanna draw Particle!\n";
 		SDL_SetRenderDrawColor(r, red, green, blue, 255);
 		SDL_RenderFillRect(r, &body);
 	}

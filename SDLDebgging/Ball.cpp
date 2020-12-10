@@ -10,6 +10,7 @@ Ball::Ball(SDL_Rect r, SDL_Texture* t) {
 	texture = t;
 
 	currentLateralVelocity = -12;
+	veloScale = 20;
 }
 
 SDL_Rect Ball::getRect() {
@@ -17,13 +18,34 @@ SDL_Rect Ball::getRect() {
 }
 
 void Ball::Bounce(int x, int y) {
-	std::cout << "Bounce vals\n"<< x<<"|" << y<<std::endl;
-	std::cout << "\nCurrentX|Y\n" << currentLateralVelocity << "|" << currentVerticalVelocity << std::endl;
+	//std::cout << "Bounce vals\n"<< x<<"|" << y<<std::endl;
+	//std::cout << "\nCurrentX|Y\n" << currentLateralVelocity << "|" << currentVerticalVelocity << std::endl;
+	std::cout << "Vals:" << x << " | " << y<<endl;
 
-	currentLateralVelocity += x;
-	currentVerticalVelocity += y;
+	currentLateralVelocity = x/1.25;
+	currentVerticalVelocity = y/3;
 
-	
+	std::cout << "Velo:" << currentLateralVelocity << " | " << currentVerticalVelocity << endl;
+
+	if (abs( currentLateralVelocity) > maxSpeed) {
+		if (currentLateralVelocity > 0)
+			currentLateralVelocity = maxSpeed;
+		else
+			currentLateralVelocity = maxSpeed * -1;
+	}
+	if (abs(currentVerticalVelocity) > maxSpeed) {
+		if (currentVerticalVelocity > 0)
+			currentVerticalVelocity = maxSpeed;
+		else
+			currentVerticalVelocity = maxSpeed * -1;
+	}
+}
+
+pair<int, int> Ball::getCenter() {
+	int x = (rect.x + rect.w / 2);
+	int y = (rect.y + rect.h / 2);
+
+	return pair<int, int>(x, y);
 }
 
 void Ball::Update() {
@@ -38,7 +60,7 @@ void Ball::Update() {
 	rect.y += currentVerticalVelocity;
 
 	//gravity
-	if (currentVerticalVelocity < 25 && gravTimer>0) {
+	if (currentVerticalVelocity < 25 && gravTimer>1) {
 		currentVerticalVelocity += 1;
 		gravTimer = 0;
 	}

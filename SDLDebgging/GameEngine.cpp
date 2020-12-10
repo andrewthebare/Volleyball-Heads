@@ -46,6 +46,14 @@ void GameEngine::registerPlayers(){
 	playerRect.h = 50;
 	player1 = Player(playerRect, wheelTexture);
 
+	SDL_Rect player2Rect;
+	player2Rect.x = SCREEN_WIDTH-100;
+	player2Rect.y = FLOOR;
+	player2Rect.w = 50;
+	player2Rect.h = 50;
+	player2 = Bot(player2Rect, wheelTexture, SCREEN_WIDTH-400);
+
+
 	//player2 = p2;
 	//player3 = p3;
 	//player4 = p4;
@@ -147,6 +155,10 @@ void GameEngine::handleEvents() {
 		break;
 	}
 
+	//update bots
+	player2.updateState(ball, SCREEN_WIDTH/2);
+	player2.updateBotMovement(ball);
+
 }
 
 void GameEngine::updateMechanics() {
@@ -178,7 +190,14 @@ void GameEngine::updateMechanics() {
 		ball.Bounce(anglePair.first, anglePair.second);
 	}
 
-	//ball to net
+	if (col.RectangleCollision(player2.getRect(), ball.getRect())) {
+		//here we calcualte angle into an x and y and bounce accordingly
+		pair<int, int> anglePair = col.CalculateAngle(ball.getRect(), player2.getRect(), ball.currentLateralVelocity, ball.currentVerticalVelocity, player2.currentLateralVelocity, player2.currentVerticalVelocity+5);
+		ball.Bounce(anglePair.first, anglePair.second);
+	}
+
+
+	//ball to net TODO
 	if (col.RectangleCollision(ball.getRect(), net.getRect())) {
 		if (ball.getRect().y + ball.getRect().h < net.getRect().y + 40) {
 			ball.currentVerticalVelocity *= -.7;
@@ -207,6 +226,8 @@ void GameEngine::updateMechanics() {
 		//COLLIDE
 	}
 	player1.moveRect();
+	player2.moveRect();
+
 	ball.Update();
 
 	//texture
@@ -232,8 +253,9 @@ void GameEngine::render() {
 	TrampolineRight.renderSolidRect(my_renderer, 250, 40, 40, 250);
 
 	
-	
 	player1.render(my_renderer);
+	player2.render(my_renderer);
+
 	ball.render(my_renderer);
 
 
