@@ -1,4 +1,4 @@
-# VolleyBall Heads
+# Volleyball Heads
 
 Volleyball heads is a fun little college project of mine where you play volleyball... with your head. First to 10 wins, and the AI gets stronger and faster the more points that you score on him! 
 
