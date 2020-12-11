@@ -24,7 +24,7 @@ Player::Player(SDL_Rect r, SDL_Texture* tex) {
 */
 void Player::moveLeft() {
 	if (currentLateralVelocity > -1 * veloScale) {
-		currentLateralVelocity -= 1;
+		currentLateralVelocity -= acceleration;
 		veloTimer = 0;
 	}
 	veloTimer++;
@@ -35,7 +35,7 @@ void Player::moveLeft() {
 }
 void Player::moveRight() {
 	if (currentLateralVelocity < veloScale) {
-		currentLateralVelocity += 1;
+		currentLateralVelocity += acceleration;
 		veloTimer = 0;
 	}
 	veloTimer++;

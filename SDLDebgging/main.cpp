@@ -24,29 +24,42 @@ int main()
 
   int lastTime = 0;
 
-  while(true){
+  while(GE.gameGo){
+
+
+	//fps stuff -- I could put this all into the GE classmbut I'm kinda busy
+	GE.fpsCounter++;
+	int startTime = SDL_GetTicks();
+	if (!GE.winnerFound) {
+
+		if (!GE.startScreen) {
+
+			GE.handleEvents();
+
+			GE.updateMechanics();
+
+			GE.render();
+		}
+		else {
+			GE.startScreenFunc();
+		}
+
+	}
+	else {
+		GE.winnerScreen();
+
+	}
+	if (startTime >= lastTime + 1000) {
+		lastTime = startTime;
+		GE.fpsCounter = 0;
+	}
+
+	int frameDuration = SDL_GetTicks() - startTime;
+
+	if (frameDuration < GameEngine::FRAMEDURATION) {
+		SDL_Delay(GameEngine::FRAMEDURATION - frameDuration);
+	}
 	  
-	  //fps stuff -- I could put this all into the GE classmbut I'm kinda busy
-	  GE.fpsCounter++;
-	  int startTime = SDL_GetTicks();
-
-	  GE.handleEvents();
-
-	  GE.updateMechanics();
-
-	  GE.render();
-
-	  if (startTime >= lastTime + 1000) {
-		  lastTime = startTime;
-		  GE.fpsCounter = 0;
-	  }
-
-	  int frameDuration = SDL_GetTicks() - startTime;
-
-	  if (frameDuration < GameEngine::FRAMEDURATION) {
-		  SDL_Delay(GameEngine::FRAMEDURATION - frameDuration);
-	  }
-
   }
 
   GE.quit();

@@ -4,6 +4,7 @@
 #include <SDL.h> 
 #include <SDL_image.h> 
 #include <SDL_timer.h>
+#include <SDL_ttf.h>
 
 #include "Player.h"
 #include "GameObject.h"
@@ -11,6 +12,7 @@
 #include "ParticleEffect.h"
 #include "Ball.h"
 #include "Bot.h"
+#include "TextObject.h"
 
 
 class GameEngine
@@ -37,6 +39,8 @@ private:
 	GameObject background;
 	GameObject ground;
 	GameObject net;
+	GameObject pauseMenu;
+	int pauseTimer = 0;
 
 	GameObject Trampoline;
 	GameObject TrampolineRight;
@@ -48,8 +52,22 @@ private:
 	ParticleEffect grass;
 	ParticleEffect black;
 
+	SDL_Rect leftSide, RightSide;
+
+	int score1, score2 = 0;
+	int maxScore = 10;
+	TextObject leftText;
+	TextObject rightText;
+
 public:
-	static const int SCREEN_WIDTH = 1500;
+	bool gameGo = true;
+	int winnerFound = false;
+
+	bool startScreen, pause = false;
+	bool pointScored = false;
+	int pointTimer = 0;
+
+	static const int SCREEN_WIDTH = 1100;
 	static const int SCREEN_HEIGHT = 600;
 
 	static const int FLOOR = SCREEN_HEIGHT-60-40;
@@ -74,5 +92,9 @@ public:
 	void render();
 
 	void quit();
+
+	//screens
+	void startScreenFunc();
+	void winnerScreen();
 };
 

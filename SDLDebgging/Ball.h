@@ -15,7 +15,7 @@ private:
 	SDL_Rect rect;
 	SDL_Texture* texture;
 
-	int maxSpeed = 20;
+	int maxSpeed = 15;
 	int veloScale = 10;
 
 	int gravTimer = 0;
@@ -30,6 +30,7 @@ public:
 	SDL_Rect getRect();
 
 	void Bounce(int x, int y);
+	void setX(int x);
 	std::pair<int, int> getCenter();
 	void Update();
 

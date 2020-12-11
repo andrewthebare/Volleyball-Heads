@@ -10,12 +10,15 @@ Bot::Bot(SDL_Rect r, SDL_Texture* tex, int start){
 	rect = r;
 	texture = tex;
 	startX = start;
+
+	veloScale = 5*botDifficulty;
+	acceleration = 1+.5*botDifficulty;
 }
 
 void Bot::updateState(Ball b, int halfway) {
 	this->halfway = halfway;
 	if (b.getRect().x < halfway) {	//if the ball is on the other half
-		if (rect.x == startX) {
+		if (startX + veloScale >= rect.x && startX - veloScale < rect.x) {
 			botState = idle;
 		}
 		else {
@@ -47,13 +50,14 @@ void Bot::updateBotMovement(Ball b) {
 		}
 		break;
 
+		//if (startX+veloScale >= rect.x && startX-veloScale<rect.x)
+		//	currentLateralVelocity = 0;
+
 	case defending:
 		//go to the ball
 		//std::cout << "\nrect.x: " << rect.x << " | ball center: " << b.getCenter().first;
 		if (rect.x > b.getCenter().first) {
 			moveLeft();
-
-
 		}
 		else {
 			//cout << "Wait go back!\n";
@@ -66,6 +70,14 @@ void Bot::updateBotMovement(Ball b) {
 			if(rect.y - 50 > b.getRect().y + b.getRect().h)
 				jump = true;
 		}
+		//else if (b.getCenter().first + veloScale >= rect.x && b.getCenter().first - veloScale < rect.x) {
+		//	if (currentLateralVelocity > b.currentLateralVelocity)
+		//		currentLateralVelocity = b.currentLateralVelocity*=.3;
+		//}
+		else if (currentLateralVelocity <0 && b.getRect().x>rect.x)
+			currentLateralVelocity = 0;
+
+
 
 		break;
 
@@ -74,10 +86,23 @@ void Bot::updateBotMovement(Ball b) {
 	}
 
 	//if he hits the wall
-	if (rect.x <= halfway + 10) {
+	if (rect.x <= halfway +10) {
 		currentLateralVelocity *= -1;
+		rect.x = halfway+veloScale;
+	}
+
+	//keep him the ball's width away from the back wall
+	if (rect.x > (halfway * 2) - 40) {
+		rect.x = (halfway * 2) - 40;
 	}
 }
+
+int Bot::botDifficulty = 1;
+
+void Bot::increaseDifficulty() {
+	botDifficulty++;
+}
+
 
 void Bot::render(SDL_Renderer* renderer) {
 	SDL_RenderCopyEx(renderer, texture, NULL, &rect, currentAngle, NULL, SDL_FLIP_NONE);

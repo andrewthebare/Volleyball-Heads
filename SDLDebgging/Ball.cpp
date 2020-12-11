@@ -23,7 +23,7 @@ void Ball::Bounce(int x, int y) {
 	std::cout << "Vals:" << x << " | " << y<<endl;
 
 	currentLateralVelocity = x/1.25;
-	currentVerticalVelocity = y/3;
+	currentVerticalVelocity = y/2;
 
 	std::cout << "Velo:" << currentLateralVelocity << " | " << currentVerticalVelocity << endl;
 
@@ -41,6 +41,10 @@ void Ball::Bounce(int x, int y) {
 	}
 }
 
+void Ball::setX(int x) {
+	rect.x = x;
+}
+
 pair<int, int> Ball::getCenter() {
 	int x = (rect.x + rect.w / 2);
 	int y = (rect.y + rect.h / 2);
@@ -55,6 +59,10 @@ void Ball::Update() {
 	//if we hit the end
 	if (rect.x<0 || rect.x + rect.w>GameEngine::SCREEN_WIDTH) {
 		currentLateralVelocity *= -1;
+		if (rect.x > 10)
+			rect.x = GameEngine::SCREEN_WIDTH - rect.w;
+		else
+			rect.x = 0;
 	}
 
 	rect.y += currentVerticalVelocity;

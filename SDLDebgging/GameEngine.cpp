@@ -10,6 +10,7 @@ GameEngine::GameEngine() {
 
 void GameEngine::init() {
 	col = CollisionDetector();
+	startScreen = true;
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		std::cout << "Error initializing SDL: " << SDL_GetError() << std::endl;
@@ -25,6 +26,8 @@ void GameEngine::init() {
 		SCREEN_HEIGHT, 0);
 	my_renderer = SDL_CreateRenderer(my_window, -1, 0);
 
+	TTF_Init();
+
 }
 
 
@@ -32,8 +35,10 @@ void GameEngine::init() {
 * This function is where I register all the global parts of the game to GameEngine();
 */
 void GameEngine::registerPlayers(){
+	pointScored = false;
+
 	SDL_Texture* wheelTexture = NULL;
-	SDL_Surface* wheel = IMG_Load("./carwheel.png");
+	SDL_Surface* wheel = IMG_Load("./Happy_smiley_face.png");
 
 	wheelTexture = SDL_CreateTextureFromSurface(my_renderer, wheel);
 	SDL_FreeSurface(wheel);
@@ -58,6 +63,14 @@ void GameEngine::registerPlayers(){
 	//player3 = p3;
 	//player4 = p4;
 
+	SDL_Rect pauseRect;
+	pauseRect.x = 300;
+	pauseRect.y = 200;
+	pauseRect.w = 500;
+	pauseRect.h = 300;
+
+	pauseMenu = GameObject(pauseRect, wheelTexture);
+
 
 	//also GameObjects
 	SDL_Rect backgroundRec;
@@ -74,6 +87,16 @@ void GameEngine::registerPlayers(){
 
 	background = GameObject(backgroundRec, beachTex);
 
+	leftSide.x = 0;
+	leftSide.y = SCREEN_HEIGHT - 60;
+	leftSide.w = SCREEN_WIDTH / 2 - 10;
+	leftSide.h = 60;
+
+	RightSide.x = SCREEN_WIDTH/2+10;
+	RightSide.y = SCREEN_HEIGHT - 60;
+	RightSide.w = SCREEN_WIDTH / 2 - 10;
+	RightSide.h = 60;
+
 
 	SDL_Rect courtRect;
 	courtRect.x = 0;
@@ -87,11 +110,18 @@ void GameEngine::registerPlayers(){
 	courtTexture = SDL_CreateTextureFromSurface(my_renderer, court);
 	SDL_FreeSurface(court);
 
+	SDL_Texture* ballTex = NULL;
+	SDL_Surface* ballSurf = IMG_Load("./volleyball.png");
+
+	ballTex = SDL_CreateTextureFromSurface(my_renderer, ballSurf);
+	SDL_FreeSurface(ballSurf);
+
+
 	ground = GameObject(courtRect, courtTexture);
 	
 	SDL_Rect netRec;
 	netRec.x = SCREEN_WIDTH/2-10;
-	netRec.y = SCREEN_HEIGHT -300;
+	netRec.y = SCREEN_HEIGHT -250;
 	netRec.w = 20;
 	netRec.h = SCREEN_HEIGHT;
 
@@ -124,49 +154,96 @@ void GameEngine::registerPlayers(){
 	ballRec.w = 40;
 	ballRec.h = 40;
 
-	ball = Ball(ballRec, wheelTexture);
+	ball = Ball(ballRec, ballTex);
+
+	SDL_Rect textRec;
+	textRec.x = 20;
+	textRec.y = SCREEN_HEIGHT-50;
+	textRec.w = 40;
+	textRec.h = 40;
+	leftText = TextObject(textRec);
+
+	SDL_Rect textRecR;
+	textRecR.x = SCREEN_WIDTH-40;
+	textRecR.y = SCREEN_HEIGHT - 50;
+	textRecR.w = 40;
+	textRecR.h = 40;
+	rightText = TextObject(textRecR);
+
+
+
+	//score
+	//TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24); //this opens a font style and sets a size
+
+	//SDL_Color White = { 255, 255, 255 };  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+
+	//Score1 = TTF_RenderText_Solid(Sans, "put your text here", White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+
 
 }
 
 void GameEngine::handleEvents() {
-	SDL_Event game_event;
-	SDL_PollEvent(&game_event);
-	SDL_PumpEvents();
-	const Uint8* keystate = SDL_GetKeyboardState(NULL);
+		SDL_Event game_event;
+		SDL_PollEvent(&game_event);
+		SDL_PumpEvents();
+		const Uint8* keystate = SDL_GetKeyboardState(NULL);
 
-	if (keystate[SDL_SCANCODE_LEFT]) {
-		player1.move = player1.left;
-	}
-	else if (keystate[SDL_SCANCODE_RIGHT]) {
-		player1.move = player1.right;
+	if (!pause) {
+		if (keystate[SDL_SCANCODE_LEFT]) {
+			player1.move = player1.left;
+		}
+		else if (keystate[SDL_SCANCODE_RIGHT]) {
+			player1.move = player1.right;
+		}
+		else {
+			player1.move = player1.nothing;
+		}
+
+		if (keystate[SDL_SCANCODE_SPACE]) {
+			pause = true;
+			cout << "I'm pausing!\n";
+
+		}
+
+
+		switch (game_event.key.keysym.sym) {	//one time hits
+		case SDLK_UP:
+			player1.jump = true;
+
+			if (col.RectangleCollision(Trampoline.getRect(), player1.getRect())) {
+				player1.trampJump = true;
+			}
+			break;
+
+		//case SDLK_SPACE:
+		//	//if(pauseTimer>15)
+		//		pause = true;
+		//		cout << "I'm pausing!\n";
+		//	break;
+		}
+
+		//update bots
+		player2.updateState(ball, SCREEN_WIDTH / 2);
+		player2.updateBotMovement(ball);
 	}
 	else {
-		player1.move=player1.nothing;
-	}
-
-
-	switch (game_event.key.keysym.sym) {	//one time hits
-	case SDLK_UP:
-		player1.jump = true;
-
-		if (col.RectangleCollision(Trampoline.getRect(), player1.getRect())) {
-			player1.trampJump = true;
+		pauseTimer += 1;
+		if (keystate[SDL_SCANCODE_RETURN]) {
+			pause = false;
+			pauseTimer = 0;
+			
 		}
-		break;
 	}
-
-	//update bots
-	player2.updateState(ball, SCREEN_WIDTH/2);
-	player2.updateBotMovement(ball);
-
 }
 
 void GameEngine::updateMechanics() {
-	//switch statement based on which moving enum is active
-	//player
-	switch (player1.move)
-	{
-		case 0:{
+	if (!pause) {
+
+		//switch statement based on which moving enum is active
+		//player
+		switch (player1.move)
+		{
+		case 0: {
 			player1.slowDown();
 			break;
 		}
@@ -178,60 +255,99 @@ void GameEngine::updateMechanics() {
 			player1.moveRight();
 			break;
 		}
-	default:
-		//check for collisison between player and net
-		break;
-	}
-
-	//check for colission with ball
-	if (col.RectangleCollision(player1.getRect(), ball.getRect())) {
-		//here we calcualte angle into an x and y and bounce accordingly
-		pair<int, int> anglePair = col.CalculateAngle(ball.getRect(), player1.getRect(),ball.currentLateralVelocity, ball.currentVerticalVelocity,player1.currentLateralVelocity,player1.currentVerticalVelocity);
-		ball.Bounce(anglePair.first, anglePair.second);
-	}
-
-	if (col.RectangleCollision(player2.getRect(), ball.getRect())) {
-		//here we calcualte angle into an x and y and bounce accordingly
-		pair<int, int> anglePair = col.CalculateAngle(ball.getRect(), player2.getRect(), ball.currentLateralVelocity, ball.currentVerticalVelocity, player2.currentLateralVelocity, player2.currentVerticalVelocity+5);
-		ball.Bounce(anglePair.first, anglePair.second);
-	}
+		default:
+			//check for collisison between player and net
+			break;
+		}
 
 
-	//ball to net TODO
-	if (col.RectangleCollision(ball.getRect(), net.getRect())) {
-		if (ball.getRect().y + ball.getRect().h < net.getRect().y + 40) {
-			ball.currentVerticalVelocity *= -.7;
+		if (!pointScored) {
+			//check for a win
+			if (col.RectangleCollision(ball.getRect(), leftSide)) {
+				score2++;
+				cout << "\n\t|SCORE|\n" << "\tLeft: " << score1 << " |\n" << "\tRight: " << score2 << endl;
+
+				pointScored = true;
+			}
+			else if (col.RectangleCollision(ball.getRect(), RightSide)) {
+				score1++;
+				cout << "\n\t|SCORE|\n" << "\tLeft: " << score1 << " |\n" << "\tRight: " << score2 << endl;
+				player2.increaseDifficulty();
+
+				pointScored = true;
+
+			}
+
+			if (score1 == maxScore || score2 == maxScore) {
+				winnerFound = true;
+			}
+
+			//check for colission with ball
+			if (col.RectangleCollision(player1.getRect(), ball.getRect())) {
+				//here we calcualte angle into an x and y and bounce accordingly
+				pair<int, int> anglePair = col.CalculateAngle(ball.getRect(), player1.getRect(), ball.currentLateralVelocity, ball.currentVerticalVelocity, player1.currentLateralVelocity, player1.currentVerticalVelocity);
+				ball.Bounce(anglePair.first, anglePair.second);
+			}
+
+			if (col.RectangleCollision(player2.getRect(), ball.getRect())) {
+				//here we calcualte angle into an x and y and bounce accordingly
+				pair<int, int> anglePair = col.CalculateAngle(ball.getRect(), player2.getRect(), ball.currentLateralVelocity, ball.currentVerticalVelocity, player2.currentLateralVelocity, player2.currentVerticalVelocity + 5);
+				ball.Bounce(anglePair.first, anglePair.second);
+			}
+
+			//ball to net TODO
+			if (col.RectangleCollision(ball.getRect(), net.getRect())) {
+				if (ball.getRect().y + ball.getRect().h < net.getRect().y) {
+					ball.currentVerticalVelocity *= -1;
+				}
+				else {
+					if (ball.getRect().x < SCREEN_WIDTH / 2 + 10 && ball.currentLateralVelocity < 0)
+						ball.setX(SCREEN_WIDTH / 2 + 10);
+					else if (ball.getRect().x > SCREEN_WIDTH / 2 - 10 && ball.currentLateralVelocity > 0)
+						ball.setX(SCREEN_WIDTH / 2 - 10);
+
+					ball.currentLateralVelocity *= -1;
+
+				}
+			}
+
+			//testing purposes
+			if (col.RectangleCollision(ball.getRect(), ground.getRect())) {
+				ball.currentVerticalVelocity *= -1;
+			}
+
+			//testing my collision system
+			bool b = col.RectangleCollision(player1.getRect(), net.getRect());
+			SDL_Rect q;
+			q.x = 0;
+			q.y = 0;
+			q.h = SCREEN_HEIGHT;
+			q.w = 1;
+			bool c = col.RectangleCollision(player1.getRect(), q);
+			if (b || c) {
+				player1.currentLateralVelocity = -1 * player1.currentLateralVelocity;
+				black.trigger(player1.getRect().x + 20, player1.getRect().y + 32);
+				//COLLIDE
+			}
+			player1.moveRect();
+			player2.moveRect();
+
+			ball.Update();
+
+			//texture
+			black.update();
 		}
 		else {
-			ball.currentLateralVelocity *= -.7;
+			pointTimer++;
+
+			if (pointTimer > 120) {
+				pointTimer = 0;
+				pointScored = false;
+
+				registerPlayers();
+			}
 		}
 	}
-
-	//testing purposes
-	if (col.RectangleCollision(ball.getRect(), ground.getRect())) {
-		ball.currentVerticalVelocity *= -1;
-	}
-
-	//testing my collision system
-	bool b = col.RectangleCollision(player1.getRect(), net.getRect());
-	SDL_Rect q;
-	q.x = 0;
-	q.y = 0;
-	q.h = SCREEN_HEIGHT;
-	q.w = 1;
-	bool c = col.RectangleCollision(player1.getRect(), q);
-	if (b || c) {
-		player1.currentLateralVelocity = -1*player1.currentLateralVelocity;
-		black.trigger(player1.getRect().x+20, player1.getRect().y+32);
-		//COLLIDE
-	}
-	player1.moveRect();
-	player2.moveRect();
-
-	ball.Update();
-
-	//texture
-	black.update();
 }
 
 void GameEngine::render() {
@@ -258,11 +374,26 @@ void GameEngine::render() {
 
 	ball.render(my_renderer);
 
-
+	leftText.render(my_renderer, 40, 40, 40, to_string(score1));
+	rightText.render(my_renderer, 40, 40, 40, to_string(score2));
 	black.render(my_renderer);
 
-	//SDL_RenderCopy(my_renderer, wheelTexture, NULL, &wheelFront);
+	//Mind you that (0,0) is on the top left of the window/screen, think a rect as the text's box, that way it would be very simple to understand
+
+	//Now since it's a texture, you have to put RenderCopy in your game loop area, the area where the whole code executes
+
+	//SDL_RenderCopy(my_renderer, Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
+
+															   //SDL_RenderCopy(my_renderer, wheelTexture, NULL, &wheelFront);
 	//SDL_RenderCopy(my_renderer, wheelTexture, NULL, &wheelBack);
+
+	if (pause) {
+		pauseMenu.renderSolidRect(my_renderer, 0, 0, 0, 250);
+		TextObject t = TextObject(SDL_Rect{ pauseMenu.getRect().x+180,pauseMenu.getRect().y + 120,40,40 });
+		t.render(my_renderer, 255, 0, 0, "Paused");
+
+	}
+
 	SDL_RenderPresent(my_renderer);
 
 
@@ -276,4 +407,83 @@ void GameEngine::quit() {
 	SDL_Quit();
 
 }
+
+void GameEngine::startScreenFunc() {
+	SDL_Event game_event;
+	SDL_PollEvent(&game_event);
+	SDL_PumpEvents();
+	const Uint8* keystate = SDL_GetKeyboardState(NULL);
+
+	
+
+	switch (game_event.key.keysym.sym) {	//one time hits
+	case SDLK_RETURN:
+		startScreen = false;
+		break;
+	}
+	TTF_Font* Sans = TTF_OpenFont("./Aaargh.ttf", 50);
+
+	if (!Sans)
+		std::cout << "FONT NO WORKO\n";
+
+	SDL_Color White = { 255, 255, 255 };  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+
+	SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "ROFL Volley Heads", White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+
+	SDL_Texture* Message = SDL_CreateTextureFromSurface(my_renderer, surfaceMessage); //now you can convert it into a texture
+
+	int w, h;
+	SDL_QueryTexture(Message, NULL, NULL, &w, &h);
+	SDL_Rect dstrect = { SCREEN_WIDTH/2-(w/2), SCREEN_HEIGHT/2-(h/2)+30, w, h };
+
+
+	//render
+	background.render(my_renderer);
+	SDL_RenderCopy(my_renderer, Message, NULL, &dstrect);
+	SDL_RenderPresent(my_renderer);
+
+
+
+}
+
+void GameEngine::winnerScreen() {
+	SDL_Event game_event;
+	SDL_PollEvent(&game_event);
+	SDL_PumpEvents();
+	const Uint8* keystate = SDL_GetKeyboardState(NULL);
+
+
+
+	switch (game_event.key.keysym.sym) {	//one time hits
+	case SDLK_RETURN:
+		gameGo = false;
+		break;
+	}
+	TTF_Font* Sans = TTF_OpenFont("./Aaargh.ttf", 50);
+	if (!Sans)
+		std::cout << "FONT NO WORKO\n";
+
+	SDL_Color White = { 255, 255, 255 };  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+	SDL_Surface* surfaceMessage;
+	if(score1> score2)
+		surfaceMessage = TTF_RenderText_Solid(Sans, "The Left Side Won!", White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+	else
+		surfaceMessage = TTF_RenderText_Solid(Sans, "The Right Side Won!", White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+
+	SDL_Texture* Message = SDL_CreateTextureFromSurface(my_renderer, surfaceMessage); //now you can convert it into a texture
+
+	int w, h;
+	SDL_QueryTexture(Message, NULL, NULL, &w, &h);
+	SDL_Rect dstrect = { SCREEN_WIDTH / 2 - (w / 2), SCREEN_HEIGHT / 2 - (h / 2)+30, w, h };
+
+
+	//render
+	background.render(my_renderer);
+	SDL_RenderCopy(my_renderer, Message, NULL, &dstrect);
+	SDL_RenderPresent(my_renderer);
+
+
+
+}
+
 

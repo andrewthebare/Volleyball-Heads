@@ -42,6 +42,9 @@
     <ClCompile Include="Bot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="PHath.jpg">
@@ -54,6 +57,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="beachBG.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Happy_smiley_face.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="volleyball.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -82,5 +91,16 @@
     <ClInclude Include="Bot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Aaargh.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
+    <Font Include="OpenSans-Regular.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>
